@@ -1,7 +1,7 @@
 // @description('Cosmos DB account name')
 // param accountName string = 'cosmos-${uniqueString(resourceGroup().id)}'
 @description('Cosmos DB account name')
-param accountName string
+param name string
 
 @description('Location for the Cosmos DB account.')
 param location string = resourceGroup().location
@@ -9,11 +9,11 @@ param location string = resourceGroup().location
 @description('The name for the SQL API database')
 param dbName string
 
-@description('The name for the SQL API container')
-param containerName string
+@description('Names of containers to create')
+param containers array
 
-resource account 'Microsoft.DocumentDB/databaseAccounts@2022-05-15' = {
-  name: toLower(accountName)
+resource cosmosDb 'Microsoft.DocumentDB/databaseAccounts@2022-05-15' = {
+  name: toLower(name)
   location: location
   properties: {
     enableFreeTier: true
@@ -30,7 +30,7 @@ resource account 'Microsoft.DocumentDB/databaseAccounts@2022-05-15' = {
 }
 
 resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2022-05-15' = {
-  parent: account
+  parent: cosmosDb
   name: dbName
   properties: {
     resource: {
@@ -42,20 +42,21 @@ resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2022-05-15
   }
 }
 
-resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2022-05-15' = {
+resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2022-05-15' = [for container in containers:{
   parent: database
-  name: containerName
-  properties: {
+  name: container.name
+  properties: { 
     resource: {
-      id: containerName
+      id: container.name
       partitionKey: {
         paths: [
-          '/myPartitionKey'
+         '/${container.partitionKey}' 
         ]
         kind: 'Hash'
       }
       indexingPolicy: {
         indexingMode: 'consistent'
+        automatic: true
         includedPaths: [
           {
             path: '/*'
@@ -69,4 +70,7 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
       }
     }
   }
-}
+  dependsOn:[
+    cosmosDb
+  ]
+}]

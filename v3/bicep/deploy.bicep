@@ -46,8 +46,8 @@ module cosmos './cosmos.bicep'= if(!empty(deployment.cosmosDb)){
     // containers: deployment.cosmosDb.containers
     dbName: deployment.cosmosDb.dbName
     location: location
-    accountName: deployment.cosmosDb.accountName
-    containerName: deployment.cosmosDb.containerName
+    name: deployment.cosmosDb.name
+    containers: deployment.cosmosDb.containers
   }
   scope: resourceGroup(rg.name)
   // dependsOn:[
