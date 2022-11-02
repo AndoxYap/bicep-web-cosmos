@@ -66,23 +66,24 @@ var websiteName = applicationName
 var appServicePlanName = applicationName
 
 
-resource cosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2021-04-15' = {
+resource cosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2021-04-15' existing =  {
   name: cosmosAccountName
-  kind: 'GlobalDocumentDB'
-  location: location
-  properties: {
-    consistencyPolicy: {
-      defaultConsistencyLevel: 'Session'
-    }
-    locations: [
-      {
-        locationName: location
-        failoverPriority: 0
-        isZoneRedundant: false
-      }
-    ]
-    databaseAccountOfferType: 'Standard'
-  }
+  scope: resourceGroup()
+  // kind: 'GlobalDocumentDB'
+  // location: location
+  // properties: {
+  //   consistencyPolicy: {
+  //     defaultConsistencyLevel: 'Session'
+  //   }
+  //   locations: [
+  //     {
+  //       locationName: location
+  //       failoverPriority: 0
+  //       isZoneRedundant: false
+  //     }
+  //   ]
+  //   databaseAccountOfferType: 'Standard'
+  // }
 }
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2021-01-01' = {
