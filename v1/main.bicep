@@ -42,7 +42,7 @@ param applicationName string = '${projectName}-app${uniqueString(resourceGroup()
 param location string = resourceGroup().location
 
 @description('App Service Plan\'s pricing tier. Details at https://azure.microsoft.com/en-us/pricing/details/app-service/')
-param appServicePlanTier string = 'P1V2'
+param appServicePlanTier string = 'F1'
 
 @minValue(1)
 @maxValue(3)
@@ -50,7 +50,7 @@ param appServicePlanTier string = 'P1V2'
 param appServicePlanInstances int = 1
 
 @description('The URL for the GitHub repository that contains the project to deploy.')
-param repositoryUrl string = 'https://github.com/Azure-Samples/cosmos-dotnet-core-todo-app.git'
+param repositoryUrl string = 'https://github.com/AndoxADX/net6-cc'
 
 @description('The branch of the GitHub repository to use.')
 param branch string = 'main'

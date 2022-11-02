@@ -1,5 +1,6 @@
 {
     "dev": "dev",
     "tst": "test",
-    "uat": "uat"
+    "uat": "uat",
+    "prd": "prd"
 }
