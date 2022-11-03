@@ -1,7 +1,8 @@
 param location string
+param webappName string
 
 resource hostingPlan 'Microsoft.Web/serverfarms@2021-03-01' = {
-  name: toLower('hp${uniqueString(resourceGroup().id)}')
+  name: toLower('hplan-${webappName}')
   location: location
   properties: {
     reserved: true
@@ -13,7 +14,7 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2021-03-01' = {
 }
 
 resource website 'Microsoft.Web/sites@2021-03-01' = {
-  name: toLower('as${uniqueString(resourceGroup().id)}')
+  name: toLower(webappName)
   location: location
   identity: {
     type: 'SystemAssigned'

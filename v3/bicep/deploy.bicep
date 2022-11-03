@@ -29,10 +29,11 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
 param location string = deployment.location
 
 module webapp './webapp.bicep' = {
-  name: '${deployment.projectName}-${env}'
+  name: '${deployment.appName}-${env}'
   scope: resourceGroup(rg.name)
   params: {
     location: location
+    webappName : '${deployment.appName}-${env}'
   }
 }
 
