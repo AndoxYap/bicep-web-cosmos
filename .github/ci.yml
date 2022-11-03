@@ -12,7 +12,7 @@ env:
   RG_NAME: "webapp"
 
   # The location to store the meta data for the deployment.
-  LOCATION: "eastus"
+  LOCATION: "southeastasia"
 
 jobs:
   build:
@@ -25,18 +25,19 @@ jobs:
 
       - name: Publish app
         run: dotnet publish --configuration Release /property:GenerateFullPaths=true
+        working-directory: v3/myapp
 
       - name: Publish app artifact
         uses: actions/upload-artifact@v3
         with:
           name: app
-          path: "./bin/Release/net6.0/publish/"
+          path: "./v3/myapp/bin/Release/net6.0/publish/"
 
       - name: Publish Infra artifact
         uses: actions/upload-artifact@v3
         with:
           name: infra
-          path: "./infra/"
+          path: "./v3/myapp/infra/"
 
   deployDevInfrastructure:
     needs: build
@@ -78,7 +79,7 @@ jobs:
           # Set all the outputs
           "appName=$appName" >> $env:GITHUB_OUTPUT
           "publishProfiles=$profiles" >> $env:GITHUB_OUTPUT
-        working-directory: ./infra/
+        working-directory: ./v3/myapp/infra/
 
   deployDevApp:
     needs: deployDevInfrastructure
