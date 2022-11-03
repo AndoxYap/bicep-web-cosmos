@@ -53,7 +53,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: infra
-          path: infra
+          path: v3/myapp/infra
 
       - name: Login to Azure CLI
         uses: azure/login@v1
