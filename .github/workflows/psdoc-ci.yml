@@ -18,6 +18,6 @@ jobs:
       with:
         conventions: Azure.NameByParentPath
         modules: PSDocs,PSDocs.Azure
-        inputPath: templates/
-        outputPath: out/docs/
+        inputPath: ACR-basic/
+        outputPath: ACR-basic/
         prerelease: true
