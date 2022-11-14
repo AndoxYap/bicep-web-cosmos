@@ -1,0 +1,23 @@
+name: Publish docs
+on:
+  push:
+    branches: [ main ]
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v2
+
+    # Generate markdown files using PSDocs
+    # Scan for Azure template file recursively in sub-directories
+    # Then generate a docs using a standard naming convention. i.e. <name>_<version>.md
+    - name: Generate docs
+      uses: microsoft/ps-docs@main
+      with:
+        conventions: Azure.NameByParentPath
+        modules: PSDocs,PSDocs.Azure
+        inputPath: templates/
+        outputPath: out/docs/
+        prerelease: true
